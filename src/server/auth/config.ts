@@ -1,6 +1,8 @@
 import { DrizzleAdapter } from "@auth/drizzle-adapter";
-import { type DefaultSession, type NextAuthConfig } from "next-auth";
-import DiscordProvider from "next-auth/providers/discord";
+import type { DefaultSession, Session, User } from "next-auth";
+import type { AuthConfig } from "@auth/core/types";
+import type { Provider } from "@auth/core/providers";
+import SpotifyProvider from "next-auth/providers/spotify";
 
 import { db } from "~/server/db";
 import {
@@ -38,7 +40,11 @@ declare module "next-auth" {
  */
 export const authConfig = {
   providers: [
-    DiscordProvider,
+    SpotifyProvider({
+      clientId: process.env.SPOTIFY_CLIENT_ID!,
+      clientSecret: process.env.SPOTIFY_CLIENT_SECRET!,
+      checks: ["pkce"],
+    }) as Provider,
     /**
      * ...add more providers here.
      *
@@ -56,7 +62,7 @@ export const authConfig = {
     verificationTokensTable: verificationTokens,
   }),
   callbacks: {
-    session: ({ session, user }) => ({
+    session: ({ session, user }: { session: Session; user: User }) => ({
       ...session,
       user: {
         ...session.user,
@@ -64,4 +70,4 @@ export const authConfig = {
       },
     }),
   },
-} satisfies NextAuthConfig;
+} satisfies AuthConfig;
