@@ -1,29 +1,79 @@
-# Create T3 App
+# Spotify Playlist Generator for Sauna Sessions
 
-This is a [T3 Stack](https://create.t3.gg/) project bootstrapped with `create-t3-app`.
+A web application that automates the creation of music playlists for sauna experiences based on song characteristics like BPM, energy, acousticness, and instrumentalness.
 
-## What's next? How do I make an app with this?
+## Features
 
-We try to keep this project as simple as possible, so you can start with just the scaffolding we set up for you, and add additional things later when they become necessary.
+- Authentication with Spotify
+- Analysis of source playlist songs for audio features
+- Classification of songs into "Calm" or "Building Energy" categories
+- Automated generation of 38-minute playlists optimized for sauna sessions
+- Creates new playlists directly in your Spotify account
+- Simple dashboard interface
 
-If you are not familiar with the different technologies used in this project, please refer to the respective docs. If you still are in the wind, please join our [Discord](https://t3.gg/discord) and ask for help.
+## Setup
 
-- [Next.js](https://nextjs.org)
-- [NextAuth.js](https://next-auth.js.org)
-- [Prisma](https://prisma.io)
-- [Drizzle](https://orm.drizzle.team)
-- [Tailwind CSS](https://tailwindcss.com)
-- [tRPC](https://trpc.io)
+### Prerequisites
 
-## Learn More
+- Node.js (v18 or newer)
+- PostgreSQL database
+- Spotify Developer account
 
-To learn more about the [T3 Stack](https://create.t3.gg/), take a look at the following resources:
+### Spotify Developer Setup
 
-- [Documentation](https://create.t3.gg/)
-- [Learn the T3 Stack](https://create.t3.gg/en/faq#what-learning-resources-are-currently-available) — Check out these awesome tutorials
+1. Go to the [Spotify Developer Dashboard](https://developer.spotify.com/dashboard/)
+2. Create a new application
+3. Set the redirect URI to `http://localhost:3000/api/auth/callback/spotify`
+4. Note your Client ID and Client Secret
 
-You can check out the [create-t3-app GitHub repository](https://github.com/t3-oss/create-t3-app) — your feedback and contributions are welcome!
+### Environment Variables
 
-## How do I deploy this?
+Create a `.env` file in the root directory with:
 
-Follow our deployment guides for [Vercel](https://create.t3.gg/en/deployment/vercel), [Netlify](https://create.t3.gg/en/deployment/netlify) and [Docker](https://create.t3.gg/en/deployment/docker) for more information.
+```
+# Spotify API credentials
+SPOTIFY_CLIENT_ID=your_spotify_client_id
+SPOTIFY_CLIENT_SECRET=your_spotify_client_secret
+
+# Auth secret - Generate a random string
+AUTH_SECRET=your_auth_secret
+
+# Database URL for PostgreSQL
+DATABASE_URL=postgres://postgres:postgres@localhost:5432/spotify_playlist
+```
+
+### Database Setup
+
+1. Run `./start-database.sh` to start a PostgreSQL instance (if using Docker)
+2. Run `npm run db:push` to set up the database schema
+
+### Installation and Running
+
+```bash
+# Install dependencies
+npm install
+
+# Start development server
+npm run dev
+```
+
+Visit `http://localhost:3000` to access the application.
+
+## Usage
+
+1. Sign in with your Spotify account
+2. Enter the ID of a source playlist (you can find this in the Spotify URL)
+3. The system will analyze songs and classify them as "Calm" or "Building Energy"
+4. Select your session type and enter a name for your new playlist
+5. Click "Create 38-min Playlist" to generate and save a new playlist to your Spotify account
+
+## Technical Details
+
+- Built with Next.js, TypeScript, and TailwindCSS
+- Uses Spotify Web API TypeScript SDK
+- Song classification based on:
+  - BPM (Tempo)
+  - Energy level
+  - Acousticness
+  - Instrumentalness
+- Playlists optimized to fit in exactly 38 minutes with appropriate energy progression

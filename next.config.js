@@ -8,6 +8,10 @@ import "./src/env.js";
 const config = {
   reactStrictMode: true,
 
+  images:{
+    domains: ['image-cdn-ak.spotifycdn.com', 'mosaic.scdn.co', 'image-cdn-fa.spotifycdn.com', 'i.scdn.co'],
+  },
+
   /**
    * If you are using `appDir` then you must comment the below `i18n` config out.
    *
