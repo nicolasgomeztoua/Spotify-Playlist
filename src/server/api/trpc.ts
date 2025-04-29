@@ -56,7 +56,7 @@ export const createTRPCContext = async (opts: CreateNextContextOptions) => {
 
   // Get the session from the server using the getServerSession wrapper function
   const session = await auth(req, res);
-
+  
   return createInnerTRPCContext({
     session,
   });
@@ -123,7 +123,9 @@ const timingMiddleware = t.middleware(async ({ next, path }) => {
   const result = await next();
 
   const end = Date.now();
-  console.log(`[TRPC] ${path} took ${end - start}ms to execute`);
+  // Type-safe logging with explicit type conversion
+  const timeTaken = end - start;
+  console.log(`[TRPC] ${String(path)} took ${timeTaken}ms to execute`);
 
   return result;
 });

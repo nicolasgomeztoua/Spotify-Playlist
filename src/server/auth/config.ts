@@ -1,7 +1,6 @@
 import { DrizzleAdapter } from "@auth/drizzle-adapter";
-import type { DefaultSession, Session, User } from "next-auth";
-import type { AuthConfig } from "@auth/core/types";
-import type { Provider } from "@auth/core/providers";
+import type { DefaultSession, Session, User, AuthOptions } from "next-auth";
+import type { Provider } from "next-auth/providers/index";
 import SpotifyProvider from "next-auth/providers/spotify";
 
 import { db } from "~/server/db";
@@ -70,4 +69,4 @@ export const authConfig = {
       },
     }),
   },
-} satisfies AuthConfig;
+} satisfies AuthOptions;

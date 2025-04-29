@@ -1,4 +1,4 @@
-import { AccessToken, SpotifyApi } from '@spotify/web-api-ts-sdk';
+import { type AccessToken, SpotifyApi } from '@spotify/web-api-ts-sdk';
 import { getServerSession } from 'next-auth/next';
 import { authOptions } from '../pages/api/auth/[...nextauth]';
 
